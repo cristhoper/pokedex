@@ -1,19 +1,27 @@
-<div class="work-feature-block row">
-  <img class="work-feature-block-image" src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/2.png" alt="2">
-  <h2 class="work-feature-block-header text-center"><strong>Ivysaur</strong></h2>
-</div>
-<div class="work-feature-block row">
-  <div class="col-xs-12">
-    <label>Peso:</label>
-    <p>You need complete with pokemon's weight</p>
-    <label>Altura:</label>
-    <p>You need complete with pokemon's height</p>
-    <label>Habilidades:</label>
-    <p>You need complete with pokemon's abilities</p>
-    <label>Movimientos:</label>
-    <p>You need complete with pokemon's movements</p>
-  </div>
-</div>
+<%  if @pokemon_data.nil? %>
+    <h4 class="work-feature-block-header text-center"><strong>Lo sentimos! No existe informacionr en este momento</strong></h4>
+<%else%>
+    <div class="work-feature-block row">
+        <img class="work-feature-block-image" src="<%= Rails.configuration.image_base + @pokemon_data["id"].to_s + '.png' %>" alt="2">
+        <h2 class="work-feature-block-header text-center"><strong><%= @pokemon_data["name"]%></strong></h2>
+    </div>
+    <div class="work-feature-block row">
+      <div class="col-xs-12">
+        <label>Peso:</label>
+        <p><%= @pokemon_data["weight"]%> </p>
+        <label>Altura:</label>
+        <p><%= @pokemon_data["height"]%></p>
+        <label>Habilidades:</label>
+        <% @pokemon_data["abilities"].each do |pokemon_ability| %>
+            <p><%= pokemon_ability["ability"]["name"].capitalize %></p>
+        <%end%>
+        <label>Movimientos:</label>
+        <% @pokemon_data["moves"].each do |pokemon_moves| %>
+            <p><%= pokemon_moves["move"]["name"].capitalize %></p>
+        <%end%>
+      </div>
+    </div>
+<%end%>
 <div class="row">
   <%= link_to root_path, class:"btn btn-success btn-lg btn-block" do%>
     Volver
