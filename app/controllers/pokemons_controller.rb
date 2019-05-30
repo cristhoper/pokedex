@@ -22,9 +22,21 @@ class PokemonsController < ApplicationController
   end
 
   def show
-    # You need complete the code here!
-    # function load the details of the pokemon with its
-    # entry number, show the image, name, weight, height,
-    # moves, abilities and species
+    begin
+      url = Rails.configuration.api_url+'pokemon/'+params[:id]
+      # get the detail information for pokemon id
+      response = RestClient.get url
+      if response.code == 200
+        # if response was successfully parse JSON
+        response = JSON.parse(response)
+        @pokemon_data = response
+      else
+        # if response code isn't succed, set a message to the user and show the view
+        flash[:error] = 'Ocurrió un error en la consulta hacia pokeapi. Por favor, inténtalo nuevamente'
+      end
+    rescue
+      #if an exception appears, set a message to the user and show the view
+      flash[:error] = 'Ocurrió un error en la consulta hacia pokeapi. Por favor, inténtalo nuevamente'
+    end
   end
 end
