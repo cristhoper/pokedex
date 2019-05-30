@@ -23,13 +23,12 @@ class PokemonsController < ApplicationController
 
   def show
     begin
+      # get the detail information for pokemon id based on pokemon api.
       url = Rails.configuration.api_url+'pokemon/'+params[:id]
-      # get the detail information for pokemon id
       response = RestClient.get url
       if response.code == 200
-        # if response was successfully parse JSON
-        response = JSON.parse(response)
-        @pokemon_data = response
+        # if response was successfully, save data in new var for view
+        @pokemon_data = JSON.parse(response)
       else
         # if response code isn't succed, set a message to the user and show the view
         flash[:error] = 'Ocurrió un error en la consulta hacia pokeapi. Por favor, inténtalo nuevamente'
